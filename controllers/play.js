@@ -9,7 +9,7 @@ exports.loadQuestion = (req, res, next) => {
 	//guardo la puntuación en una variable local
 	let score = req.session.score;
 	
-	if (req.session.cuestionarios.length === 0) {
+	if (req.session.cuestionarios === undefined || req.session.cuestionarios === []) {
 
 		//reinicio la puntuación
 		req.session.score = 0;
