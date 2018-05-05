@@ -9,7 +9,7 @@ exports.loadQuestion = (req, res, next) => {
 	//guardo la puntuación en una variable local
 	let score = req.session.score;
 	
-	if (req.session.cuestionarios === undefined || req.session.cuestionarios === []) {
+	if (req.session.cuestionarios === undefined) {
 
 		//reinicio la puntuación
 		req.session.score = 0;
@@ -66,7 +66,7 @@ exports.comprobar = (req, res, next) => {
 		resultado = true;
 		req.session.cuestionarios.splice(index, 1);
 		if(req.session.cuestionarios.length === 0){
-			req.session.cuestionarios = [];
+			req.session.cuestionarios = undefined;
 			res.render('random_nomore', {
 		    	score: req.session.score
 		    });
@@ -80,7 +80,7 @@ exports.comprobar = (req, res, next) => {
 
 	} else {
 
-		req.session.cuestionarios = [];
+		req.session.cuestionarios = undefined;
 		let ultimoScore = req.session.score;
 		req.session.score = 0;
 		res.render('random_result', {
