@@ -15,8 +15,8 @@ router.get('/author', (req, res, next) => {
 });
 
 //Rutas para la función random play
-router.get('/quizzes/randomplay', playController.loadQuestion);
-router.get('/quizzes/randomcheck/:id(\\d+)', playController.comprobar)
+router.get('+/quizzes/randomplay', playController.loadQuestion);
+router.get('+/quizzes/randomcheck/:id(\\d+)', playController.comprobar)
 
 
 // Autoload for routes using :quizId
