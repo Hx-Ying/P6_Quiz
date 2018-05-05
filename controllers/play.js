@@ -66,6 +66,7 @@ exports.comprobar = (req, res, next) => {
 		resultado = true;
 		req.session.cuestionarios.splice(index, 1);
 		if(req.session.cuestionarios.length === 0){
+			req.session.cuestionarios = [];
 			res.render('random_nomore', {
 		    	score: req.session.score
 		    });
