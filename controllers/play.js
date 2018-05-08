@@ -37,7 +37,7 @@ exports.loadQuestion = (req, res, next) => {
 		req.session.index = Math.floor(Math.random()*req.session.cuestionarios.length)
     	let index = req.session.index;
 
-    	//paso la pregunta y la puntuación actual a la vista correspondiente
+    	//paso la pregunta y la puntuación actual a la vista correspondiente jijicd
         res.render('random_play', {
         	quiz: req.session.cuestionarios[index],
         	score: score
