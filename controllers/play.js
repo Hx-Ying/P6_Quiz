@@ -54,39 +54,44 @@ exports.comprobar = (req, res, next) => {
 
 	//guardo los datos de la session en varibles locales
 	let index = req.session.index;
-	let quiz = req.session.cuestionarios[index];
+	//let quiz = req.session.cuestionarios[index];
 
-	//resultado de si la respuesta introducida coincide con la correcta
-	let resultado = false;
+	models.quiz.findById(id)
+	.then(quiz => {
+		//resultado de si la respuesta introducida coincide con la correcta
+		let resultado = false;
 
-	//comparo la respuesta
-	if (respuesta.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
-            === quiz.answer.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) {
-		req.session.score++;
-		resultado = true;
-		req.session.cuestionarios.splice(index, 1);
-		if(req.session.cuestionarios.length === 0){
-			req.session.cuestionarios = undefined;
-			res.render('random_nomore', {
-		    	score: req.session.score
-		    });
+		//comparo la respuesta
+		if (respuesta.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "") 
+	            === quiz.answer.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) {
+			req.session.score++;
+			resultado = true;
+			req.session.cuestionarios.splice(index, 1);
+			if(req.session.cuestionarios.length === 0){
+				req.session.cuestionarios = undefined;
+				res.render('random_nomore', {
+			    	score: req.session.score
+			    });
+			} else {
+				res.render('random_result', {
+			    	score: req.session.score,
+			    	result: resultado,
+			    	answer: respuesta
+			    });
+			}
+
 		} else {
+
+			req.session.cuestionarios = undefined;
+			let ultimoScore = req.session.score;
+			req.session.score = 0;
 			res.render('random_result', {
-		    	score: req.session.score,
+		    	score: ultimoScore,
 		    	result: resultado,
 		    	answer: respuesta
 		    });
 		}
+	})
+	.catch(error => next(error));
 
-	} else {
-
-		req.session.cuestionarios = undefined;
-		let ultimoScore = req.session.score;
-		req.session.score = 0;
-		res.render('random_result', {
-	    	score: ultimoScore,
-	    	result: resultado,
-	    	answer: respuesta
-	    });
-	}
 };
