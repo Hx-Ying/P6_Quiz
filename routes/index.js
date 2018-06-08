@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const quizController = require('../controllers/quiz');
+
 const tipController = require('../controllers/tip');
 const userController = require('../controllers/user');
 const sessionController = require('../controllers/session');
@@ -41,6 +42,9 @@ router.get([
 
 //-----------------------------------------------------------
 
+const playController = require('../controllers/play');
+
+
 /* GET home page. */
 router.get('/', (req, res, next) => {
   res.render('index');
@@ -50,6 +54,10 @@ router.get('/', (req, res, next) => {
 router.get('/author', (req, res, next) => {
     res.render('author');
 });
+
+//Rutas para la función random play
+router.get('/quizzes/randomplay', playController.loadQuestion);
+router.get('/quizzes/randomcheck/:id(\\d+)', playController.comprobar)
 
 
 // Autoload for routes using :quizId
