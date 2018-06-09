@@ -6,7 +6,7 @@ let cuestionarios = [];*/
 
 exports.loadQuestion = (req, res, next) => {
 		
-	if (req.session.cuestionarios === undefined) {
+	if (req.session.cuestionarios === undefined || req.session.cuestionarios.length === 0) {
 
 		//reinicio la puntuación
 		req.session.score = 0;
@@ -14,7 +14,6 @@ exports.loadQuestion = (req, res, next) => {
 		//query a la base de datos para sacar todas las preguntas
 	    models.quiz.findAll()
 	    .then(quizzes => {
-
 	    	//guardamos los quizzes y el índice de la pregunta actual en session de req
 	    	req.session.cuestionarios = quizzes;
 	    	req.session.index = Math.floor(Math.random()*quizzes.length);
@@ -29,9 +28,8 @@ exports.loadQuestion = (req, res, next) => {
 
 
 	} else {
-		req.session.index = Math.floor(Math.random()*req.session.cuestionarios.length)
-    	req.session.index
 
+		req.session.index = Math.floor(Math.random()*req.session.cuestionarios.length);
     	//paso la pregunta y la puntuación actual a la vista correspondiente jijicd
         res.render('random_play', {
         	quiz: req.session.cuestionarios[req.session.index],
