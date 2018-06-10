@@ -65,7 +65,6 @@ router.param('quizId', quizController.load);
 router.param('userId', userController.load);
 router.param('tipId',  tipController.load);
 
-
 // Routes for the resource /session
 router.get('/session',    sessionController.new);     // login form
 router.post('/session',   sessionController.create);  // create sesion
@@ -141,6 +140,14 @@ router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     sessionController.loginRequired,
     quizController.adminOrAuthorRequired,
     tipController.destroy);
+router.get('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/edit',
+    sessionController.loginRequired,
+    tipController.adminOrAuthorRequired,
+    tipController.edit);
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
+    sessionController.loginRequired,
+    tipController.adminOrAuthorRequired,
+tipController.update);
 
 
 module.exports = router;
